@@ -2,7 +2,7 @@
 
 I just don't like frameworks. They're nice in the beginning until you want to do something there is not an option for. If you like to write scripts instead of tests, then these Futest helpers will give you just what you need.
 
-# Installation
+## Installation
 ```
 gem install futest
 ```
@@ -12,13 +12,14 @@ include Futest
 ```
 and you're good to go.
 
-# Commands
+## Commands
 - **test:** Takes a description and optional setup methods which will be called for you, then prints the message and line number.
 - **halt:** Halt test and print error along with line number.
 - **is:** Check for equality, takes the current value, and the expected value, stops on error.
 - **lt:** Same as above, check for less than.
-- **lt:** Check for greater than.
+- **gt:** Check for greater than.
 
+## Example
 ```ruby
 $test = true
 require './config/boot.rb'
