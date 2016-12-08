@@ -35,7 +35,7 @@ begin
   @s = Site.first(:link => 'test1')
   @c = @s.campaigns.first(:active => true)
 
-  no('No campaigns found') unless @c
+  halt('No campaigns found') unless @c
 
   # CAMPAIGN
 
@@ -65,7 +65,7 @@ begin
   setup
   @q = create_contribution
 
-  no('should save contribution', @q) unless @q.save
+  halt('should save contribution', @q) unless @q.save
 
   test('create new contribution')
   is(@c.reload.contributions_count, @t1 + 1)
@@ -139,7 +139,7 @@ begin
   test('user not deleted count create', :setup2)
 
   @u = create_user(:email => "e#{Time.now.to_i}@fugroup.net")
-  no('save user', @u) unless @u.save
+  halt('save user', @u) unless @u.save
 
   is(@s.reload.users_not_deleted_count, @w1 + 1)
   is(@s.reload.campaigns_not_deleted_active_count, @w2)
@@ -163,7 +163,7 @@ begin
   end
 
   test('campaigns not deleted active count', :setup2, :create_campaign)
-  no('create campaign', @c2) unless @c2.save
+  halt('create campaign', @c2) unless @c2.save
 
   is(@s.reload.campaigns_not_deleted_active_count, @w2 + 1)
 
