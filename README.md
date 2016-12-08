@@ -8,7 +8,7 @@ gem install futest
 ```
 or add to Gemfile. In your tests include the line
 ```ruby
-include Futest
+include Futest::Helpers
 ```
 and you're good to go.
 
@@ -20,6 +20,8 @@ and you're good to go.
 - **gt:** Check for greater than.
 
 ## Example
+This example is taken from https://crowdfundhq.com and demonstrates how it can be used.
+
 ```ruby
 $test = true
 require './config/boot.rb'
