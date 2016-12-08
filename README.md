@@ -1,3 +1,8 @@
+# Futest flexible testing for Ruby
+
+I just don't like frameworks. They're nice in the beginning until you want to do something there is not an option for. If you like to write scripts instead of tests, then these Futest helpers will give you just what you need.
+
+```ruby
 $test = true
 require './config/boot.rb'
 
@@ -5,7 +10,7 @@ require './config/boot.rb'
 #~~> TEST CACHING - Futest example
 ###################################
 
-include Futest
+include Futest::Helpers
 
 begin
   # SETUP
@@ -172,3 +177,4 @@ begin
 rescue => x
   e(x)
 end
+```
