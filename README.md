@@ -20,7 +20,7 @@ and you're good to go.
 ## Example
 
 ```ruby
-require './lib/futest'
+require 'futest'
 
 include Futest::Helpers
 
