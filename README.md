@@ -17,7 +17,7 @@ and you're good to go.
 - **halt:** Halt test and print error along with line number.
 - **is:** Checks if something is true and halts if it isn't. See the example below for usage.
 
-## Example of use
+## Example
 
 ```ruby
 require './lib/futest'
@@ -33,7 +33,6 @@ begin
   is(1, :eq => 1)
   is(1, :lt => 2)
   is(1, :a? => Integer)
-
 
 rescue => x
   e(x)
