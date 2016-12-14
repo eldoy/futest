@@ -26,17 +26,28 @@ module Futest
 
     # Equality tester
     def is(v1, v2, n = x(caller))
-      halt("#{v1} is #{v2}", nil, n) unless v1 == v2
-    end
+      v2 = {:eq => v2} unless v2.is_a?(Hash)
+      # Extract options here with delete.
+      # No options available at the moment.
 
-    # Greater than tester
-    def gt(v1, v2, n = x(caller))
-      halt("#{v1} gt #{v2}", nil, n) unless v1 > v2
-    end
+      # For key output
+      def fs(y);{:eq => '==', :gt => '>', :lt => '<', :a? => 'is a'}[y] rescue y;end
 
-    # Less than tester
-    def lt(v1, v2, n = x(caller))
-      halt("#{v1} lt #{v2}", nil, n) unless v1 < v2
+      # Symbolize keys and extract values
+      k, v = v2.inject({}){|q,(k,v)|q[k.to_sym] = v; q}.to_a.flatten
+      s = ["#{v1.class} #{v1} #{fs(k)} #{v}", nil, n]
+      case k
+      when :eq
+        halt(*s) unless v1 == v
+      when :gt
+        halt(*s) unless v1 > v
+      when :lt
+        halt(*s) unless v1 < v
+      when :a?
+        halt(*s) unless v1.is_a?(v)
+      else
+        puts "#{k}: Command not supported."
+      end
     end
 
     ##############
@@ -52,7 +63,7 @@ module Futest
     # Print error message
     def e(y)
       y.backtrace.first.match(/(\/.+\/.*.rb):(\d{1,9}):/)
-      halt(%{#{y.message}\n=> ~/#{$1.split('/')[3..-1].join('/')}}, nil, $2) if $1.present? and $2.present?
+      halt(%{#{y.message}\n=> ~/#{$1.split('/')[3..-1].join('/')}}, nil, $2) if $1 and $2
       halt(%{#{y.message}\n=> #{y.backtrace.join("\n")}})
     end
 
