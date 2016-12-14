@@ -15,10 +15,9 @@ and you're good to go.
 ## Commands
 - **test:** Takes a description and optional setup methods which will be called for you, then prints the message and line number.
 - **halt:** Halt test and print error along with line number.
-- **is:** Checks if something is true and halts if it isn't. Options are :eq (eqaulity), :gt (greater than), :lt (less than), :a? (object type)
+- **is:** Checks if something is true and halts if it isn't. See the example below for usage.
 
-## Example
-This is how it can be used:
+## Example of use
 
 ```ruby
 require './lib/futest'
