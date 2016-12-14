@@ -33,6 +33,7 @@ begin
   is('hello', 'hello')
   is(1, 1)
   is(1, :eq => 1)
+  is(1, :gt => 0)
   is(1, :lt => 2)
   is(1, :a? => Integer)
 
