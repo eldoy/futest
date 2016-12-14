@@ -24,7 +24,7 @@ require './lib/futest'
 
 include Futest::Helpers
 
-# Use begin to have formatted output
+# Use begin to have formatted output on error
 begin
 
   test('Testing Futest Features')
