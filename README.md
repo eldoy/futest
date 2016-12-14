@@ -15,9 +15,7 @@ and you're good to go.
 ## Commands
 - **test:** Takes a description and optional setup methods which will be called for you, then prints the message and line number.
 - **halt:** Halt test and print error along with line number.
-- **is:** Check for equality, takes the current value, and the expected value, stops on error.
-- **lt:** Same as above, check for less than.
-- **gt:** Check for greater than.
+- **is:** Checks if something is true and halts if it isn't. Options are :eq (eqaulity), :gt (greater than), :lt (less than), :a? (object type)
 
 ## Example
 This example is taken from https://crowdfundhq.com and demonstrates how it can be used.
