@@ -27,12 +27,22 @@ include Futest::Helpers
 # Use begin to have formatted output
 begin
 
-  test('Hello')
+  test('Testing Futest Features')
+
+  # :eq is default, can be omitted
   is('hello', 'hello')
   is(1, 1)
   is(1, :eq => 1)
   is(1, :lt => 2)
   is(1, :a? => Integer)
+
+  halt("Can't process this test") if :something == true
+
+  # Pass the validated model object to print the error messages
+  user = User.first
+  user.name = "Flatty"
+
+  halt("Can't save user", user) unless user.save
 
 rescue => x
   e(x)

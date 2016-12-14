@@ -8,9 +8,10 @@ module Futest
     # Prints error message and stops execution
     def halt(str, obj = nil, n = x(caller))
       m = "#{n}: #{str}"
-      if obj and obj.errors.any?
-        n = obj.errors.messages
-        m += ":\n=> " + n.each{|k, v| n[k] = v.join(', ')}.to_json[1..-2].gsub('","', '", "')
+      # Support for errors when using Object DB ORM
+      if obj and obj.errors and obj.errors.any? and obj.errors.messages
+        q = obj.errors.messages
+        m += ":\n=> " + q.each{|k, v| q[k] = v.join(', ')}.to_json[1..-2].gsub('","', '", "')
       end
       puts red(%{#{m}})
       puts

@@ -12,7 +12,6 @@ begin
   is(1, :lt => 2)
   is(1, :a? => Integer)
 
-
 rescue => x
   e(x)
 end
