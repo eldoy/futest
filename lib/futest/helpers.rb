@@ -46,7 +46,7 @@ module Futest
         :in => 'in',
         :nin => 'nin',
         :has => 'has'
-      }[y] rescue y;end
+      }[y] rescue y; end
 
       # Symbolize keys and extract values
       k, v = v2.inject({}){|q,(k,v)|q[k.to_sym] = v; q}.to_a.flatten
@@ -105,19 +105,25 @@ module Futest
       )
 
       # Make result available in instance variables
-      @code, @cookies, @headers, @raw, @history = [@page.code, @page.cookies, @page.headers, @page.raw_headers, @page.history]
+      [:code, :cookies, :headers, :history].each{|i| instance_variable_set("@#{i}", @page.send(i))}
+      @raw = @page.raw_headers
       @body = @page.body
     end
 
     # Show the last @body in the browser
     def show
       halt('@body is not defined') unless @body
+
       # Add @host and @base to all links in HTML to fetch CSS and images
       @body.scan(/(<.*(src|href)=["'](\/.+)["'].*>)/).each do |m|
         @body.gsub!(m[0], m[0].gsub(m[2], "#{@host}#{@base}#{m[2]}"))
       end
+
+      # Write body to tmp file
       name = "/tmp/#{Time.now.to_i}_fushow.html"
       File.open(name, 'w'){|f| f.write(@body)}
+
+      # Open with default browser (MacOS)
       `open -g #{name}`
     end
 
