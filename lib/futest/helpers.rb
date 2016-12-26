@@ -13,9 +13,7 @@ module Futest
         q = obj.errors.messages rescue obj.errors
         m += ":\n=> " + q.each{|k, v| q[k] = v.join(', ')}.to_json[1..-2].gsub('","', '", "')
       end
-      puts red(%{#{m}})
-      puts
-      exit(0)
+      puts red(%{#{m}\n}); exit(0)
     end
 
     # Prints the test and runs setup methods
@@ -27,11 +25,9 @@ module Futest
 
     # Equality tester
     def is(v1, v2, n = x(caller))
+      # Adding some flexibility
       v2 = {:a? => v2} if !v2.is_a?(String) and v2.to_s[0] =~ /[A-Z]/
       v2 = {:eq => v2} if !v2.is_a?(Hash)
-
-      # Extract options here with delete.
-      # No options available at the moment.
 
       # For key output
       def fs(y);{
