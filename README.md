@@ -2,7 +2,7 @@
 
 I just don't like frameworks. They're nice in the beginning until you want to do something there is not an option for. If you like to write scripts instead of tests, then these Futest helpers will give you just what you need.
 
-## Installation
+### Installation
 ```
 gem install futest
 ```
@@ -12,13 +12,13 @@ include Futest::Helpers
 ```
 and you're good to go.
 
-## Commands
+### Commands
 - **test:** Takes a description and optional setup methods which will be called for you, then prints the message and line number.
 - **halt:** Halt test and print error along with line number.
-- **is:** Checks if something is true and halts if it isn't. See the example below for usage.
+- **is:** Checks if something is true and halts if it isn't. See the usage section below.
 - **pull:** Pulls a URL and expose varibles with info you can use
 
-## Example
+### Usage
 
 ```ruby
 require 'futest'
@@ -109,11 +109,13 @@ begin
   is @history, :a? => Array
   is @body, :a? => String
 
+
+  # # # # # # # # # # # #
   # Example test with login
 
   # Post the email and password to the login resource
   def login
-    pull(:post, '/login', :email => 'vidar@fugroup.net', :password => 'test')
+    pull :post, '/login', :email => 'vidar@fugroup.net', :password => 'test'
   end
 
   # Print the name of the test, and run the login
