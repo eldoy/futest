@@ -17,6 +17,7 @@ and you're good to go.
 - **halt:** Halt test and print error along with line number.
 - **is:** Checks if something is true and halts if it isn't. See the usage section below.
 - **pull:** Pulls a URL and expose varibles with info you can use
+- **show:** Shows the current @body from last pull in your web browser
 
 ### Usage
 
@@ -124,6 +125,9 @@ begin
 
   # Now that we're logged in, we can view the profile page
   pull '/profile'
+
+  # The show command opens the last @body from the pull in the browser
+  show
 
   # Now @code, @cookies, @headers, @raw, @history, @body is available
   is @code, 200
