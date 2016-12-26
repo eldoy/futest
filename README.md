@@ -126,7 +126,7 @@ begin
   # Now that we're logged in, we can view the profile page
   pull '/profile'
 
-  # The show command opens the last @body from the pull in the browser
+  # The show command displays the last @body from the pull in the browser
   show
 
   # Now @code, @cookies, @headers, @raw, @history, @body is available
