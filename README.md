@@ -17,7 +17,7 @@ and you're good to go.
 - **halt:** Halt test and print error along with line number.
 - **is:** Checks if something is true and halts if it isn't. See the usage section below.
 - **pull:** Pulls a URL and expose varibles with info you can use
-- **show:** Shows the current @body from last pull in your web browser
+- **show:** Shows the body from the last pull in your web browser
 
 ### Usage
 
