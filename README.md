@@ -16,6 +16,7 @@ and you're good to go.
 - **test:** Takes a description and optional setup methods which will be called for you, then prints the message and line number.
 - **halt:** Halt test and print error along with line number.
 - **is:** Checks if something is true and halts if it isn't. See the example below for usage.
+- **pull:** Pulls a URL and expose varibles with info you can use
 
 ## Example
 
@@ -39,16 +40,16 @@ begin
   end
 
   test('Reality', :setup, :setup_user)
-  is(@user, :a? => User)
-  is(@hello, 'Welcome to the flatness.')
+  is @user, :a? => User
+  is @hello, 'Welcome to the flatness.'
 
   # :eq is default, can be omitted
-  is('horizon', 'curved')
-  is(1, 1)
-  is(1, :eq => 1)
-  is(1, :gt => 0)
-  is(1, :lt => 2)
-  is(1, :a? => Integer)
+  is 'horizon', 'curved'
+  is 1, 1
+  is 1, :eq => 1
+  is 1, :gt => 0
+  is 1, :lt => 2
+  is 1, :a? => Integer
 
   # User halt to stop the test run
   halt("Can't process") if :earth == 'flat'
@@ -59,7 +60,87 @@ begin
 
   halt("Can't believe user", user) unless user.save
 
+  # Here are the tests that show how it works
+  # There options are:
+  # :a?, :a, :eq, :lt, :lte, :gt, :gte, :in, :nin, :has
+  s = 'hello'
+  is s, 'hello'
+  is s == 'hello', true
+  is s != 'hello', false
+  is s.start_with?('h'), true
+  is nil, NilClass
+
+  is 1, 1
+  is 1, Integer
+  is 1, :a? => Integer
+  is 1, :a => Integer
+  is 1, :eq => 1
+  is 1, :lt => 2
+  is 1, :lte => 2
+  is 2, :lte => 2
+  is 2, :gte => 2
+  is 3, :gte => 2
+  is 6, :gte => 2
+  is 1, :in => [1,2,3]
+  is 5, :nin => [1,2,3]
+  is({:test => 1}, :has => :test)
+
+  # Set up the @host variable to use pull if you want to test requests
+  # The pull format is pull(method = :get, path, params, headers)
+  # Default is :get, but :post, :delete, :update, :patch are supported.
+
+  # You can set the @host globally with $host in stead
+  # Optionally specify a @base variable to pre-add a path after the @host
+  @base = '/login' # Optional
+  @host = 'http://waveorb.com' # Required
+
+  # URL will be @host + @base, http://waveorb.com/login in this case
+  pull '/login'
+  pull '/login', :duration => 'long'
+  pull '/login', {:duration => 'long'}, :pjax => '1'
+
+  # The pull command exposes these variables for use with tests
+  is @host, 'http://waveorb.com'
+  is @page, :a? => String
+  is @code, 200
+  is @cookies, :a? => Hash
+  is @headers, :a? => Hash
+  is @raw, :a? => Hash
+  is @history, :a? => Array
+  is @body, :a? => String
+
+  # Example test with login
+
+  # Post the email and password to the login resource
+  def login
+    pull(:post, '/login', :email => 'vidar@fugroup.net', :password => 'test')
+  end
+
+  # Print the name of the test, and run the login
+  # Cookies will be sent back automatically, so your login works for the duration of the test
+  test 'Profile', :login
+
+  # Now that we're logged in, we can view the profile page
+  pull '/profile'
+
+  # Now @code, @cookies, @headers, @raw, @history, @body is available
+  is @code, 200
+
+  # Check if the HTML contains a string
+  is @body.include?('body'), true
+
+  # Flexible, many ways to do it.
+  is @body =~ /body/, Integer
+  is @body !~ /body/, false
+  is @body =~ /body/, :ne => nil
+
 rescue => x
+  # You can print more information here if you need to debug
+  puts x.message
   e(x)
 end
 ```
+
+Created and maintained by [Fugroup Ltd.](https://www.fugroup.net) We are the creators of [CrowdfundHQ.](https://crowdfundhq.com)
+
+`@authors: Vidar`

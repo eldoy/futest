@@ -33,3 +33,8 @@ is @headers, :a? => Hash
 is @raw, :a? => Hash
 is @history, :a? => Array
 is @body, :a? => String
+
+is @body =~ /body/, Integer
+is @body !~ /body/, false
+is @body =~ /body/, :ne => nil
+is @body.include?('body'), true
