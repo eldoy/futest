@@ -79,8 +79,8 @@ module Futest
 
       @method = args[0].is_a?(Symbol) ? args.delete_at(0) : :get
       @path = (args[0] || '/')
-      @params = (args[1] || @params || {})
-      @headers = (args[2] || @headers || {})
+      @params = (args[1] || {})
+      @headers = (args[2] || {})
       @headers.merge!(:cookies => @cookies) if @cookies
 
       args.each do |a|
@@ -92,13 +92,14 @@ module Futest
       # Add host and base to url
       @url = @host + (@base || '') + @path
 
-      # Fetch the url
-      @page = RestClient::Request.execute(
+      o = {
         :method => @method,
         :url => @url,
+        :timeout => 2,
         :payload => @params,
         :headers => @headers
-      )
+      }
+      @page = RestClient::Request.execute(o)
 
       # Make result available in instance variables
       [:code, :cookies, :headers, :history].each{|i| instance_variable_set("@#{i}", @page.send(i))}
