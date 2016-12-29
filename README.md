@@ -14,8 +14,8 @@ and you're good to go.
 
 ### Commands
 - **test:** Takes a description and optional setup methods which will be called for you, then prints the message and line number.
-- **halt:** Halt test and print error along with line number.
-- **is:** Checks if something is true and halts if it isn't. See the usage section below.
+- **stop:** Stop test and print error along with line number.
+- **is:** Checks if something is true and stops if it isn't. See the usage section below.
 - **pull:** Pulls a URL and expose varibles with info you can use
 - **show:** Shows the body from the last pull in your web browser
 
@@ -52,14 +52,14 @@ begin
   is 1, :lt => 2
   is 1, :a? => Integer
 
-  # User halt to stop the test run
-  halt("Can't process") if :earth == 'flat'
+  # Use stop to end the test run
+  stop("Can't process") if :earth == 'flat'
 
   # Pass the validated model object to print the error messages
   @user = User.first
   @user.name = "Truth"
 
-  halt("Can't believe user", user) unless user.save
+  stop("Can't believe user", user) unless user.save
 
   # Here are the tests that show how it works
   # There options are:
@@ -143,7 +143,7 @@ begin
 rescue => x
   # You can print more information here if you need to debug
   puts x.message
-  e(x)
+  err(x)
 end
 ```
 

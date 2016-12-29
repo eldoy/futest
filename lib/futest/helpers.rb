@@ -6,7 +6,7 @@ module Futest
     ##############
 
     # Prints error message and stops execution
-    def halt(str, obj = nil, n = x(caller))
+    def stop(str, obj = nil, n = line(caller))
       m = "#{n}: #{str}"
       # Support for errors when using Object DB ORM
       if obj and obj.errors and obj.errors.any?
@@ -18,13 +18,13 @@ module Futest
 
     # Prints the test and runs setup methods
     def test(*args)
-      n = args[-1].is_a?(Integer) ? args[-1] : x(caller)
+      n = args[-1].is_a?(Integer) ? args[-1] : line(caller)
       args.select{|r| r.is_a?(Symbol)}.each{|k| send(k)}
       puts green("#{n}: #{args[0]}")
     end
 
     # Equality tester
-    def is(v1, v2, n = x(caller))
+    def is(v1, v2, n = line(caller))
       # Adding some flexibility
       v2 = {:a? => v2} if !v2.is_a?(String) and v2.to_s[0] =~ /[A-Z]/
       v2 = {:eq => v2} if !v2.is_a?(Hash)
@@ -48,7 +48,7 @@ module Futest
       k, v = v2.inject({}){|q,(k,v)|q[k.to_sym] = v; q}.to_a.flatten
       s = ["#{v1.class} #{v1} #{fs(k)} #{v.class} #{v}", nil, n]
 
-      halt(*s) unless
+      stop(*s) unless
       case k
       when :eq  then v1 == v
       when :ne  then v1 != v
@@ -75,7 +75,7 @@ module Futest
       # set @base to add paths to @host
       @host ||= $host
       @base ||= ($base || '')
-      halt('@host not defined') unless @host
+      stop('@host not defined') unless @host
 
       @method = args[0].is_a?(Symbol) ? args.delete_at(0) : :get
       @path = (args[0] || '/')
@@ -109,7 +109,7 @@ module Futest
 
     # Show the last @body in the browser
     def show
-      halt('@body is not defined') unless @body
+      stop('@body is not defined') unless @body
 
       # Add @host and @base to all links in HTML to fetch CSS and images
       @body.scan(/(<.*(src|href)=["'](\/.+)["'].*>)/).each do |m|
@@ -136,14 +136,14 @@ module Futest
     def green(text);"\e[33m#{text}\e[0m";end
 
     # Print error message
-    def e(y)
+    def err(y)
       y.backtrace.first.match(/(\/.+\/.*.rb):(\d{1,9}):/)
-      halt(%{#{y.message}\n=> ~/#{$1.split('/')[3..-1].join('/')}}, nil, $2) if $1 and $2
-      halt(%{#{y.message}\n=> #{y.backtrace.join("\n")}})
+      stop(%{#{y.message}\n=> ~/#{$1.split('/')[3..-1].join('/')}}, nil, $2) if $1 and $2
+      stop(%{#{y.message}\n=> #{y.backtrace.join("\n")}})
     end
 
     # Get the line number
-    def x(q)
+    def line(q)
       q.first.split(':')[1]
     end
 
