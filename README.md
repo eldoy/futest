@@ -1,6 +1,6 @@
 # Futest flexible testing for Ruby
 
-I just don't like frameworks. They're nice in the beginning until you want to do something there is not an option for. If you like to write scripts instead of tests, then these Futest helpers will give you just what you need.
+Test driven development has never been easier. If you like to write scripts instead of tests, then Futest will give you exactly what you need.
 
 ### Installation
 ```
@@ -30,7 +30,7 @@ include Futest::Helpers
 begin
 
   # Print string in green
-  test('Testing Heliocentric Model')
+  test 'Testing Heliocentric Model'
 
   # Optionally pass setup methods to run as symbols
   # define setup methods
@@ -40,7 +40,7 @@ begin
     @user = User.first
   end
 
-  test('Reality', :setup, :setup_user)
+  test 'Reality', :setup, :setup_user
   is @user, :a? => User
   is @hello, 'Welcome to the flatness.'
 
@@ -53,17 +53,17 @@ begin
   is 1, :a? => Integer
 
   # Use stop to end the test run
-  stop("Can't process") if :earth == 'flat'
+  stop "Can't process" if :earth == 'flat'
 
   # Pass the validated model object to print the error messages
   @user = User.first
   @user.name = "Truth"
 
-  stop("Can't believe user", user) unless user.save
+  stop "Can't believe user", user unless user.save
 
   # Here are the tests that show how it works
   # There options are:
-  # :a?, :a, :eq, :lt, :lte, :gt, :gte, :in, :nin, :has
+  # :a?, :eq, :lt, :lte, :gt, :gte, :in, :nin, :has
   s = 'hello'
   is s, 'hello'
   is s == 'hello', true
@@ -74,7 +74,6 @@ begin
   is 1, 1
   is 1, Integer
   is 1, :a? => Integer
-  is 1, :a => Integer
   is 1, :eq => 1
   is 1, :lt => 2
   is 1, :lte => 2
@@ -131,6 +130,11 @@ begin
 
   # Now @code, @cookies, @headers, @raw, @history, @body is available
   is @code, 200
+  is @cookies, :a? => Hash
+  is @headers, :a? => Hash
+  is @raw, :a? => Hash
+  is @history, :a? => Array
+  is @body, :a? => String
 
   # Check if the HTML contains a string
   is @body.include?('body'), true
@@ -143,7 +147,7 @@ begin
 rescue => x
   # You can print more information here if you need to debug
   puts x.message
-  err(x)
+  err x
 end
 ```
 
