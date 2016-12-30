@@ -1,6 +1,6 @@
 # Futest flexible testing for Ruby
 
-Test driven development has never been easier. If you like to write scripts instead of tests, then Futest will give you exactly what you need.
+Test driven development has never been easier. If you like to write scripts instead of tests, and not worry about how your testing framework works, then Futest will give you exactly what you need.
 
 ### Installation
 ```
