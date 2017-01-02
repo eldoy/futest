@@ -7,7 +7,7 @@ is s == 'hello', true
 is s != 'hello', false
 is s.start_with?('h'), true
 is nil, NilClass
-
+is nil, nil
 is 1, 1
 is 1, Integer
 is 1, :a? => Integer

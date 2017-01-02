@@ -33,18 +33,24 @@ module Futest
     end
 
     # Equality tester
-    def is(v1, v2 = nil, n = line(caller))
+    def is(v1, v2 = :udef, n = line(caller))
 
-      # Adding some flexibility
+      # Use :a? if v2 is not a string and looks like a class
       v2 = {:a? => v2} if !v2.is_a?(String) and v2.to_s[0] =~ /[A-Z]/
-      v2 = {:eq => v2} if !v2.nil? and !v2.is_a?(Hash)
 
-      # Symbolize keys and extract values
-      k, v = (v2 || {}).inject({}){|q,(k,v)|q[k.to_sym] = v; q}.to_a.flatten
+      # Use :eq if v2 is defined and it's not a Hash
+      v2 = {:eq => v2} if v2 != :udef and !v2.is_a?(Hash)
+
+      # Symbolize keys
+      k, v = (v2.is_a?(Hash) ? v2 : {}).inject({}){|q,(k,v)|q[k.to_sym] = v; q}.to_a.flatten
+
+      # Extract values
       s = ["#{v1.class} #{v1} #{CMD[k]} #{v.class} #{v}", nil, n]
 
+      # Set @debug = true to print info
       puts s.join('-') if @debug
 
+      # Stop unless true
       stop(*s) unless
       case k
       when nil then !!v1
