@@ -1,6 +1,15 @@
 module Futest
   module Helpers
 
+    CMD = {
+      :a? => 'is', :a => 'is',
+      :eq => '==', :ne => '!=',
+      :gt => '>',  :gte => '>=',
+      :lt => '<',  :lte => '<=',
+      :in => 'in', :nin => 'nin',
+      :has => 'has'
+    }
+
     ##############
     # TEST METHODS
     ##############
@@ -24,32 +33,21 @@ module Futest
     end
 
     # Equality tester
-    def is(v1, v2, n = line(caller))
+    def is(v1, v2 = nil, n = line(caller))
+
       # Adding some flexibility
       v2 = {:a? => v2} if !v2.is_a?(String) and v2.to_s[0] =~ /[A-Z]/
-      v2 = {:eq => v2} if !v2.is_a?(Hash)
-
-      # For key output
-      def fs(y);{
-        :a? => 'is',
-        :a => 'is',
-        :eq => '==',
-        :ne => '!=',
-        :gt => '>',
-        :gte => '>=',
-        :lt => '<',
-        :lte => '<=',
-        :in => 'in',
-        :nin => 'nin',
-        :has => 'has'
-      }[y] rescue y; end
+      v2 = {:eq => v2} if !v2.nil? and !v2.is_a?(Hash)
 
       # Symbolize keys and extract values
-      k, v = v2.inject({}){|q,(k,v)|q[k.to_sym] = v; q}.to_a.flatten
-      s = ["#{v1.class} #{v1} #{fs(k)} #{v.class} #{v}", nil, n]
+      k, v = (v2 || {}).inject({}){|q,(k,v)|q[k.to_sym] = v; q}.to_a.flatten
+      s = ["#{v1.class} #{v1} #{CMD[k]} #{v.class} #{v}", nil, n]
+
+      puts s.join('-') if @debug
 
       stop(*s) unless
       case k
+      when nil then !!v1
       when :eq  then v1 == v
       when :ne  then v1 != v
       when :gt  then v1 > v
@@ -99,8 +97,7 @@ module Futest
         :payload => @params,
         :headers => @headers
       }
-      @page = RestClient::Request.execute(o)
-
+      RestClient::Request.execute(o){|z| @page = z}
       # Make result available in instance variables
       [:code, :cookies, :headers, :history].each{|i| instance_variable_set("@#{i}", @page.send(i))}
       @raw = @page.raw_headers

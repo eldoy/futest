@@ -1,6 +1,7 @@
 test 'Features'
 
 s = 'hello'
+is true
 is s, 'hello'
 is s == 'hello', true
 is s != 'hello', false
@@ -22,10 +23,10 @@ is 1, :in => [1,2,3]
 is 5, :nin => [1,2,3]
 is({:test => 1}, :has => :test)
 
-@host = 'http://waveorb.com'
+@host = 'http://fugroup.net'
 pull
 
-is @host, 'http://waveorb.com'
+is @host, 'http://fugroup.net'
 is @page, :a? => String
 is @code, 200
 is @cookies, :a? => Hash
@@ -38,3 +39,6 @@ is @body =~ /body/, Integer
 is @body !~ /body/, false
 is @body =~ /body/, :ne => nil
 is @body.include?('body'), true
+
+pull '/nisse'
+is @code, 404
