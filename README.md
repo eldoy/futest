@@ -52,6 +52,9 @@ begin
   is 1, :lt => 2
   is 1, :a? => Integer
 
+  # 1 argument is also allowed
+  is 'everything' == 'stories'
+
   # Use stop to end the test run
   stop "Can't process" if :earth == 'flat'
 
