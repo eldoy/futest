@@ -90,7 +90,7 @@ begin
   @user = User.first
   @user.name = "Truth"
 
-  stop "Can't believe user", user unless user.save
+  stop "Can't believe user", @user unless @user.save
 
   # Here are the tests that show how it works
   # There options are:
