@@ -29,9 +29,9 @@ Futest.debug = false
 - **test:** Takes a description and optional setup methods, then prints the description and current line number.
 - **stop:** Stop test and print error along with line number.
 - **is:** Checks if something is true and stops if it isn't. See the usage section below.
-- **pull:** Pulls a URL and expose varibles with info you can use
-- **show:** Shows the body from the last pull in your web browser
-- **err:**
+- **pull:** Pulls a URL and expose varibles with info you can use.
+- **show:** Shows the body from the last pull in your web browser.
+- **err:** Print formatted error message and stops the test.
 
 ### Usage
 For a real-world example with a test runner ready, have a look at [the tests for Futest.](https://github.com/fugroup/futest/tree/master/test)
