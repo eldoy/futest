@@ -159,7 +159,8 @@ begin
   # The show command displays the last @body from the pull in the browser
   show
 
-  # Now @code, @cookies, @headers, @raw, @history, @body, @url is available
+  # Now @page, @code, @cookies, @headers, @raw, @history, @body, @url is available
+  is @page, :a? => String     # => Actually a RestClient response object
   is @code, 200
   is @cookies, :a? => Hash
   is @headers, :a? => Hash
