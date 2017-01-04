@@ -15,13 +15,15 @@ module Futest
     ##############
 
     # Prints error message and stops execution
-    def stop(str, obj = nil, n = line(caller))
+    def stop(str, model = nil, n = line(caller))
       m = "#{n}: #{str}"
+
       # Support for errors when using Object DB ORM
-      if obj and obj.errors and obj.errors.any?
-        q = obj.errors.messages rescue obj.errors
+      if model and model.errors and model.errors.any?
+        q = model.errors.messages rescue model.errors
         m += ":\n=> " + q.each{|k, v| q[k] = v.join(', ')}.to_json[1..-2].gsub('","', '", "')
       end
+
       puts red(%{#{m}\n}); exit(0)
     end
 
@@ -115,16 +117,16 @@ module Futest
       stop('@body is not defined') unless @body
 
       # Add @host and @base to all links in HTML to fetch CSS and images
-      @body.scan(/(<.*(src|href)=["'](\/.+)["'].*>)/).each do |m|
-        @body.gsub!(m[0], m[0].gsub(m[2], "#{@host}#{@base}#{m[2]}"))
+      @body.scan(/(<.*(src|href)=["'](\/?.+)["'].*>)/).each do |m|
+        @body.gsub!(m[0], m[0].gsub(m[2], "#{@host}#{@base}#{m[2][0] == '/' ? m[2] : "/#{m[2]}"}")) unless %w[ht //].include?(m[2][0..1])
       end
 
       # Write body to tmp file
       name = "/tmp/#{Time.now.to_i}_fushow.html"
       File.open(name, 'w'){|f| f.write(@body)}
 
-      # Open with default browser (MacOS)
-      `open -g #{name}`
+      # Open with default browser, set Futest.show to change this
+      `#{Futest.show} #{name}`
     end
 
 
@@ -132,17 +134,31 @@ module Futest
     # HELPER METHODS
     ##############
 
-    # Colorize input red
-    def red(text);"\e[31m#{text}\e[0m";end
+    # Colorize output, 33 is :green (default), 31 is :red
+    def out(s, c = :green)
+      z = {:green => 33, :red => 31}; %{\e[#{z[c] || c}m#{s}\e[0m}
+    end
 
     # Colorize input green
-    def green(text);"\e[33m#{text}\e[0m";end
+    def green(s); out(s); end
+
+    # Colorize input red
+    def red(s); out(s, :red); end
 
     # Print error message
-    def err(y)
-      y.backtrace.first.match(/(\/.+\/.*.rb):(\d{1,9}):/)
-      stop(%{#{y.message}\n=> ~/#{$1.split('/')[3..-1].join('/')}}, nil, $2) if $1 and $2
-      stop(%{#{y.message}\n=> #{y.backtrace.join("\n")}})
+    def err(*args)
+      x = args[0]
+
+      # Pass :v or :vv to print more information about the error
+      puts x.backtrace.join("\n") if args.include?(:vv)
+      puts x.message if args.include?(:v)
+
+      # Normally just print the first line in the message
+      x.backtrace.first.match(/(\/.+\/.*.rb):(\d{1,9}):/)
+      stop(%{#{x.message}\n=> ~/#{$1.split('/')[3..-1].join('/')}}, nil, $2) if $1 and $2
+
+      # Print more if the backtrace doesn't match
+      stop(%{#{x.message}\n=> #{x.backtrace[0..60].join("\n")}})
     end
 
     # Get the line number

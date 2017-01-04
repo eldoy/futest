@@ -1,5 +1,25 @@
 test 'Features'
 
+test '* stop'
+
+# Uncomment to run, will stop the test
+# m = Model.new
+# m.errors[:hello] = ['test']
+# stop('model', m)
+
+test '* err'
+
+# Uncomment to run, will stop the test
+# begin
+#   Model.new.not
+# rescue => x
+#   err x
+#   err x, :v
+#   err x, :vv
+# end
+
+test '* is'
+
 s = 'hello'
 is true
 is s, 'hello'
@@ -23,8 +43,16 @@ is 1, :in => [1,2,3]
 is 5, :nin => [1,2,3]
 is({:test => 1}, :has => :test)
 
+test '* pull'
+
 @host = 'http://fugroup.net'
+# Quickly change host:
+# @host = 'http://waveorb.com'
+
 pull
+
+# Will open the last @body in the browser
+# show
 
 is @host, 'http://fugroup.net'
 is @page, :a? => String

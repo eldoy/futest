@@ -12,12 +12,26 @@ include Futest::Helpers
 ```
 and you're good to go.
 
+### Settings
+```ruby
+# The command to run when you use 'show'
+# The default is for MacOs. The -g flag opens the page in the background.
+Futest.show = 'open -g'
+
+# Mode, default is development
+Futest.mode = RACK['ENV'] || 'development'
+
+# Debug
+Futest.debug = false
+```
+
 ### Commands
 - **test:** Takes a description and optional setup methods which will be called for you, then prints the message and line number.
 - **stop:** Stop test and print error along with line number.
 - **is:** Checks if something is true and stops if it isn't. See the usage section below.
 - **pull:** Pulls a URL and expose varibles with info you can use
 - **show:** Shows the body from the last pull in your web browser
+- **err:**
 
 ### Usage
 For a real-world example with a test runner ready, have a look at [the tests for Futest.](https://github.com/fugroup/futest/tree/master/test)
@@ -154,12 +168,12 @@ begin
   is @body, :a? => String
 
   # Check if the HTML contains a string
-  is @body.include?('body'), true
+  is @body.include?('string')
 
   # Flexible, many ways to do it.
-  is @body =~ /body/, Integer
-  is @body !~ /body/, false
-  is @body =~ /body/, :ne => nil
+  is @body =~ /string/, Integer
+  is @body !~ /string/, false
+  is @body =~ /string/, :ne => nil
 
 rescue => x
   # You can print more information here if you need to debug
@@ -168,6 +182,10 @@ rescue => x
 
   # Err prints a short backtrace and the line number, then stops the tests.
   err x
+
+  # Err takes options as symbols
+  err x, :v      # Verbose, prints the full message
+  err x, :vv     # Very verbose, prints the full backtrace as well
 end
 ```
 
