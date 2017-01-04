@@ -20,11 +20,25 @@ and you're good to go.
 - **show:** Shows the body from the last pull in your web browser
 
 ### Usage
-
+For a real-world example with a test runner ready, have a look at [the tests for Futest.](https://github.com/fugroup/futest/tree/master/test)
 ```ruby
+# Require futest if not using Bundler
 require 'futest'
 
+# Include the Futest helpers in your test runner
 include Futest::Helpers
+
+# Run the tests from your app root directory
+ruby test/run.rb
+
+# Auto-test with Rerun, Guard or other libraries
+Rerun: https://github.com/alexch/rerun
+gem 'rerun'
+gem 'rb-fsevent'
+gem 'terminal-notifier'
+
+# Example command for Rerun, can be added to a shell alias
+bundle exec rerun --dir .,config --pattern '**/*.{rb,ru,yml}' -- ruby test/run.rb
 
 # Use begin to have formatted output on error
 begin
