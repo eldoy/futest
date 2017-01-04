@@ -120,7 +120,7 @@ begin
   # The pull format is pull(method = :get, path, params, headers)
   # Default is :get, but :post, :delete, :update, :patch are supported.
 
-  # You can set the @host globally with $host in stead
+  # You can set the @host globally with $host in stead, or $base for @base
   # Optionally specify a @base variable to pre-add a path after the @host
   @base = '/login' # Optional
   @host = 'http://waveorb.com' # Required
