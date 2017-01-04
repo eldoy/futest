@@ -150,6 +150,9 @@ begin
 rescue => x
   # You can print more information here if you need to debug
   puts x.message
+  puts x.backtrace
+
+  # Err prints a short backtrace and the line number, then stops the tests.
   err x
 end
 ```
