@@ -159,13 +159,14 @@ begin
   # The show command displays the last @body from the pull in the browser
   show
 
-  # Now @code, @cookies, @headers, @raw, @history, @body is available
+  # Now @code, @cookies, @headers, @raw, @history, @body, @url is available
   is @code, 200
   is @cookies, :a? => Hash
   is @headers, :a? => Hash
   is @raw, :a? => Hash
   is @history, :a? => Array
   is @body, :a? => String
+  is @url, :a? => String
 
   # Check if the HTML contains a string
   is @body.include?('string')
