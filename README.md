@@ -14,12 +14,12 @@ and you're good to go.
 
 ### Settings
 ```ruby
-# The command to run when you use 'show'
+# The command to run when you use 'show' to show the @body from the last pull.
 # The default is for MacOs. The -g flag opens the page in the background.
 Futest.show = 'open -g'
 
 # Mode, default is development
-Futest.mode = RACK['ENV'] || 'development'
+Futest.mode = ENV['RACK_ENV'] || 'development'
 
 # Debug
 Futest.debug = false
