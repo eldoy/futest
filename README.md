@@ -26,7 +26,7 @@ Futest.debug = false
 ```
 
 ### Commands
-- **test:** Takes a description and optional setup methods which will be called for you, then prints the message and line number.
+- **test:** Takes a description and optional setup methods, then prints the description and current line number.
 - **stop:** Stop test and print error along with line number.
 - **is:** Checks if something is true and stops if it isn't. See the usage section below.
 - **pull:** Pulls a URL and expose varibles with info you can use
