@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'rest-client'
+gemspec
 
 group :development do
-  gem 'rerun' #, :git => 'https://github.com/fugroup/rerun.git'
+  gem 'rerun'
   gem 'rb-fsevent'
   gem 'terminal-notifier'
 end
