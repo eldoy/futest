@@ -2,6 +2,8 @@
 
 Test driven development has never been easier. If you like to write scripts instead of tests, and not worry about how your testing framework works, then Futest will give you exactly what you need.
 
+If you're using MongoDB, check out [Minimongo,](https://github.com/fugroup/minimongo) it goes hand in hand with Futest and is super easy to use.
+
 ### Installation
 ```
 gem install futest
